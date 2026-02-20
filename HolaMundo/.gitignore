@@ -1,0 +1,34 @@
+# Archivos compilados de Delphi
+*.exe
+*.dcu
+*.dpu
+*.bpl
+*.bpi
+*.dcp
+*.dcpil
+*.res
+*.map
+*.drc
+*.so
+*.dll
+*.dylib
+
+# Directorios de salida
+Win32/
+Win64/
+Debug/
+Release/
+__history/
+__recovery/
+
+# Archivos de escritorio/IDE
+*.local
+*.identcache
+*.projdata
+*.tvsconfig
+*.dsk
+*.vlb
+
+# Archivos de respaldo
+*~
+*.~*
