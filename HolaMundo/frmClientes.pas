@@ -7,7 +7,7 @@ uses
   System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,
-  Vcl.ComCtrls, Vcl.Buttons, Vcl.Mask,
+  Vcl.ComCtrls, Vcl.Mask,
   Data.DB,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error,
   FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
@@ -55,10 +55,10 @@ type
     lblSubHeader: TLabel;
 
     // --- Toolbar ---
-    btnNuevo: TBitBtn;
-    btnEditar: TBitBtn;
-    btnEliminar: TBitBtn;
-    btnActualizar: TBitBtn;
+    btnNuevo: TButton;
+    btnEditar: TButton;
+    btnEliminar: TButton;
+    btnActualizar: TButton;
     edtBuscar: TEdit;
     lblBuscar: TLabel;
 
@@ -78,8 +78,8 @@ type
     edtEmail: TEdit;
     edtTelefono: TEdit;
     edtDireccion: TEdit;
-    btnGuardar: TBitBtn;
-    btnCancelar: TBitBtn;
+    btnGuardar: TButton;
+    btnCancelar: TButton;
     pnlSeparador: TPanel;
 
     // --- Footer ---
@@ -108,7 +108,7 @@ type
     procedure LimpiarEdicion;
     procedure MostrarEdicion(Visible: Boolean);
     procedure CargarClienteEnEdicion;
-    procedure EstiloBoton(Btn: TBitBtn; ColorFondo: TColor);
+    procedure EstiloBoton(Btn: TButton);
     procedure ActualizarContador;
     procedure SetEstado(const Msg: string);
   public
@@ -148,10 +148,10 @@ begin
   pnlToolbar.BevelOuter := bvNone;
 
   // Botones toolbar
-  EstiloBoton(btnNuevo,     CLR_BTN_NUEVO);
-  EstiloBoton(btnEditar,    CLR_BTN_EDITAR);
-  EstiloBoton(btnEliminar,  CLR_BTN_ELIMINAR);
-  EstiloBoton(btnActualizar, CLR_BTN_EDITAR);
+  EstiloBoton(btnNuevo);
+  EstiloBoton(btnEditar);
+  EstiloBoton(btnEliminar);
+  EstiloBoton(btnActualizar);
 
   // Buscar
   edtBuscar.Color    := CLR_PANEL_BG;
@@ -173,8 +173,8 @@ begin
   lblEdicionTitulo.Font.Size  := 11;
   lblEdicionTitulo.Font.Style := [fsBold];
   lblEdicionTitulo.Font.Color := CLR_ACCENT;
-  EstiloBoton(btnGuardar,  CLR_BTN_GUARDAR);
-  EstiloBoton(btnCancelar, CLR_BTN_CANCELAR);
+  EstiloBoton(btnGuardar);
+  EstiloBoton(btnCancelar);
 
   // Footer
   pnlFooter.Color     := CLR_HEADER_BG;
@@ -427,13 +427,10 @@ end;
 // ---------------------------------------------------------------------------
 // Helpers privados
 // ---------------------------------------------------------------------------
-procedure TFormClientes.EstiloBoton(Btn: TBitBtn; ColorFondo: TColor);
+procedure TFormClientes.EstiloBoton(Btn: TButton);
 begin
-  Btn.Color      := ColorFondo;
-  Btn.Font.Color := CLR_BTN_TXT;
   Btn.Font.Style := [fsBold];
   Btn.Font.Size  := 9;
-  Btn.Flat       := True;
   Btn.Cursor     := crHandPoint;
 end;
 
