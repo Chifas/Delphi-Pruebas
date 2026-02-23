@@ -61,15 +61,13 @@ object FormClientes: TFormClientes
     Color = clWhite
     ParentBackground = False
     TabOrder = 1
-    object btnNuevo: TBitBtn
+    object btnNuevo: TButton
       Left = 12
       Top = 10
       Width = 110
       Height = 34
-      Caption = '  + Nuevo'
-      Flat = True
+      Caption = '+ Nuevo'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
       Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -77,15 +75,13 @@ object FormClientes: TFormClientes
       TabOrder = 0
       OnClick = btnNuevoClick
     end
-    object btnEditar: TBitBtn
+    object btnEditar: TButton
       Left = 132
       Top = 10
       Width = 110
       Height = 34
-      Caption = '  Editar'
-      Flat = True
+      Caption = 'Editar'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
       Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -93,15 +89,13 @@ object FormClientes: TFormClientes
       TabOrder = 1
       OnClick = btnEditarClick
     end
-    object btnEliminar: TBitBtn
+    object btnEliminar: TButton
       Left = 252
       Top = 10
       Width = 110
       Height = 34
-      Caption = '  Eliminar'
-      Flat = True
+      Caption = 'Eliminar'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
       Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -109,15 +103,13 @@ object FormClientes: TFormClientes
       TabOrder = 2
       OnClick = btnEliminarClick
     end
-    object btnActualizar: TBitBtn
+    object btnActualizar: TButton
       Left = 372
       Top = 10
       Width = 110
       Height = 34
-      Caption = '  Actualizar'
-      Flat = True
+      Caption = 'Actualizar'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
       Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -183,7 +175,7 @@ object FormClientes: TFormClientes
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
       ParentFont = False
       ReadOnly = True
-      RowHeight = 26
+      DefaultRowHeight = 26
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWhite
@@ -407,15 +399,13 @@ object FormClientes: TFormClientes
       ParentFont = False
       TabOrder = 5
     end
-    object btnGuardar: TBitBtn
+    object btnGuardar: TButton
       Left = 20
       Top = 356
       Width = 128
       Height = 36
-      Caption = ' Guardar'
-      Flat = True
+      Caption = 'Guardar'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
       Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
@@ -423,15 +413,13 @@ object FormClientes: TFormClientes
       TabOrder = 6
       OnClick = btnGuardarClick
     end
-    object btnCancelar: TBitBtn
+    object btnCancelar: TButton
       Left = 162
       Top = 356
       Width = 128
       Height = 36
-      Caption = ' Cancelar'
-      Flat = True
+      Caption = 'Cancelar'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWhite
       Font.Height = -12
       Font.Name = 'Segoe UI'
       Font.Style = [fsBold]
