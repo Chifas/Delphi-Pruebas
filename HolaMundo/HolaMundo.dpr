@@ -2,7 +2,8 @@ program HolaMundo;
 
 uses
   Vcl.Forms,
-  frmPrincipal in 'frmPrincipal.pas' {FormPrincipal};
+  frmPrincipal in 'frmPrincipal.pas' {FormPrincipal},
+  frmClientes in 'frmClientes.pas' {FormClientes};
 
 {$R *.res}
 

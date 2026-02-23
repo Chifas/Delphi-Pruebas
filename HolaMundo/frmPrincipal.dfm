@@ -4,7 +4,7 @@ object FormPrincipal: TFormPrincipal
   BorderStyle = bsSingle
   Caption = 'Hola Mundo - Delphi 12'
   ClientHeight = 300
-  ClientWidth = 480
+  ClientWidth = 620
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,7 +17,7 @@ object FormPrincipal: TFormPrincipal
   object pnlCentro: TPanel
     Left = 0
     Top = 0
-    Width = 480
+    Width = 620
     Height = 300
     Align = alClient
     BevelOuter = bvNone
@@ -27,7 +27,7 @@ object FormPrincipal: TFormPrincipal
     object lblTitulo: TLabel
       Left = 0
       Top = 60
-      Width = 480
+      Width = 620
       Height = 51
       Alignment = taCenter
       AutoSize = False
@@ -42,7 +42,7 @@ object FormPrincipal: TFormPrincipal
     object lblSubtitulo: TLabel
       Left = 0
       Top = 120
-      Width = 480
+      Width = 620
       Height = 25
       Alignment = taCenter
       AutoSize = False
@@ -55,7 +55,7 @@ object FormPrincipal: TFormPrincipal
       ParentFont = False
     end
     object btnSaludar: TButton
-      Left = 120
+      Left = 115
       Top = 200
       Width = 110
       Height = 40
@@ -69,8 +69,23 @@ object FormPrincipal: TFormPrincipal
       TabOrder = 0
       OnClick = btnSaludarClick
     end
+    object btnClientes: TButton
+      Left = 255
+      Top = 200
+      Width = 110
+      Height = 40
+      Caption = 'Clientes'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 1
+      OnClick = btnClientesClick
+    end
     object btnSalir: TButton
-      Left = 250
+      Left = 395
       Top = 200
       Width = 110
       Height = 40
@@ -81,7 +96,7 @@ object FormPrincipal: TFormPrincipal
       Font.Name = 'Segoe UI'
       Font.Style = []
       ParentFont = False
-      TabOrder = 1
+      TabOrder = 2
       OnClick = btnSalirClick
     end
   end
