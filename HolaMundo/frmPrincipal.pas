@@ -21,9 +21,11 @@ type
     lblTitulo: TLabel;
     lblSubtitulo: TLabel;
     btnSaludar: TButton;
+    btnClientes: TButton;
     btnSalir: TButton;
     procedure FormCreate(Sender: TObject);
     procedure btnSaludarClick(Sender: TObject);
+    procedure btnClientesClick(Sender: TObject);
     procedure btnSalirClick(Sender: TObject);
   private
     { Declaraciones privadas }
@@ -36,11 +38,13 @@ var
 
 implementation
 
+uses
+  frmClientes;
+
 {$R *.dfm}
 
 procedure TFormPrincipal.FormCreate(Sender: TObject);
 begin
-  // Centramos el formulario al iniciar
   Self.Position := poScreenCenter;
 end;
 
@@ -52,6 +56,18 @@ begin
     'Este es mi primer programa en Delphi 12.' + sLineBreak +
     'Embarcadero® Delphi 12 - Version 29.0'
   );
+end;
+
+procedure TFormPrincipal.btnClientesClick(Sender: TObject);
+var
+  FrmClientes: TFormClientes;
+begin
+  FrmClientes := TFormClientes.Create(Self);
+  try
+    FrmClientes.ShowModal;
+  finally
+    FrmClientes.Free;
+  end;
 end;
 
 procedure TFormPrincipal.btnSalirClick(Sender: TObject);

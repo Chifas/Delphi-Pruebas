@@ -107,6 +107,9 @@
     <DCCReference Include="frmPrincipal.pas">
       <Form>FormPrincipal</Form>
     </DCCReference>
+    <DCCReference Include="frmClientes.pas">
+      <Form>FormClientes</Form>
+    </DCCReference>
     <BuildConfiguration Include="Debug">
       <Key>Cfg_1</Key>
       <CfgParent>Base</CfgParent>
