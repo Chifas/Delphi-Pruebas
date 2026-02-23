@@ -1,11 +1,11 @@
 /* ============================================================
    Script de creacion de tabla CLIENTES en Firebird
-   Base de datos: C:\Datos\Clientes.fdb
+   Base de datos: C:\Datos\Clientes.gdb
    Charset: UTF8
    ============================================================ */
 
 /* Crear la base de datos (ejecutar con isql o IBExpert):
-   CREATE DATABASE 'C:\Datos\Clientes.fdb'
+   CREATE DATABASE 'C:\Datos\Clientes.gdb'
      USER 'SYSDBA' PASSWORD 'masterkey'
      DEFAULT CHARACTER SET UTF8;
 */
@@ -33,7 +33,7 @@ CREATE TRIGGER CLIENTES_BI FOR CLIENTES
 AS
 BEGIN
   IF (NEW.ID_CLIENTE IS NULL) THEN
-    NEW.ID_CLIENTE = NEXT VALUE FOR GEN_CLIENTES_ID;
+    NEW.ID_CLIENTE = GEN_ID(GEN_CLIENTES_ID, 1);
 END^
 SET TERM ; ^
 
@@ -43,14 +43,24 @@ CREATE INDEX IDX_CLIENTES_EMAIL    ON CLIENTES (EMAIL);
 
 /* Datos de ejemplo */
 INSERT INTO CLIENTES (NOMBRE, APELLIDO, EMAIL, TELEFONO, DIRECCION)
-  VALUES ('Juan',   'Garcia',    'juan.garcia@email.com',    '555-0101', 'Av. Corrientes 1234, CABA');
+  VALUES ('Juan',     'Garcia',     'juan.garcia@email.com',      '555-0101', 'Av. Corrientes 1234, CABA');
 INSERT INTO CLIENTES (NOMBRE, APELLIDO, EMAIL, TELEFONO, DIRECCION)
-  VALUES ('Maria',  'Lopez',     'maria.lopez@email.com',    '555-0202', 'Calle Florida 567, CABA');
+  VALUES ('Maria',    'Lopez',      'maria.lopez@email.com',      '555-0202', 'Calle Florida 567, CABA');
 INSERT INTO CLIENTES (NOMBRE, APELLIDO, EMAIL, TELEFONO, DIRECCION)
-  VALUES ('Carlos', 'Martinez',  'carlos.martinez@gmail.com','555-0303', 'San Martin 890, Rosario');
+  VALUES ('Carlos',   'Martinez',   'carlos.martinez@gmail.com',  '555-0303', 'San Martin 890, Rosario');
 INSERT INTO CLIENTES (NOMBRE, APELLIDO, EMAIL, TELEFONO, DIRECCION)
-  VALUES ('Ana',    'Rodriguez', 'ana.rod@hotmail.com',      '555-0404', 'Belgrano 321, Cordoba');
+  VALUES ('Ana',      'Rodriguez',  'ana.rod@hotmail.com',        '555-0404', 'Belgrano 321, Cordoba');
 INSERT INTO CLIENTES (NOMBRE, APELLIDO, EMAIL, TELEFONO, DIRECCION)
-  VALUES ('Luis',   'Fernandez', '',                         '555-0505', 'Rivadavia 777, Mendoza');
+  VALUES ('Luis',     'Fernandez',  'luis.fer@gmail.com',         '555-0505', 'Rivadavia 777, Mendoza');
+INSERT INTO CLIENTES (NOMBRE, APELLIDO, EMAIL, TELEFONO, DIRECCION)
+  VALUES ('Sofia',    'Perez',      'sofia.perez@yahoo.com',      '555-0606', 'Mitre 100, Tucuman');
+INSERT INTO CLIENTES (NOMBRE, APELLIDO, EMAIL, TELEFONO, DIRECCION)
+  VALUES ('Diego',    'Gonzalez',   'diego.gonz@outlook.com',     '555-0707', 'Lavalle 2222, CABA');
+INSERT INTO CLIENTES (NOMBRE, APELLIDO, EMAIL, TELEFONO, DIRECCION)
+  VALUES ('Laura',    'Sanchez',    'laura.san@email.com',        '555-0808', '9 de Julio 450, Salta');
+INSERT INTO CLIENTES (NOMBRE, APELLIDO, EMAIL, TELEFONO, DIRECCION)
+  VALUES ('Marcos',   'Torres',     'marcos.torres@gmail.com',    '555-0909', 'San Juan 310, Mar del Plata');
+INSERT INTO CLIENTES (NOMBRE, APELLIDO, EMAIL, TELEFONO, DIRECCION)
+  VALUES ('Valeria',  'Romero',     'valeria.rom@hotmail.com',    '555-1010', 'Independencia 88, Neuquen');
 
 COMMIT;

@@ -209,8 +209,7 @@ begin
   FDConnection.DriverName := 'FB';
   FDConnection.Params.Clear;
   FDConnection.Params.Add('DriverID=FB');
-  // Ajusta la ruta de tu .fdb o .gdb
-  FDConnection.Params.Add('Database=C:\Datos\Clientes.fdb');
+  FDConnection.Params.Add('Database=C:\Datos\Clientes.gdb');
   FDConnection.Params.Add('User_Name=SYSDBA');
   FDConnection.Params.Add('Password=masterkey');
   FDConnection.Params.Add('CharacterSet=UTF8');
