@@ -183,7 +183,7 @@ object FormClientes: TFormClientes
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
       ParentFont = False
       ReadOnly = True
-      RowHeight = 26
+      DefaultRowHeight = 26
       TabOrder = 0
       TitleFont.Charset = DEFAULT_CHARSET
       TitleFont.Color = clWhite

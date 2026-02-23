@@ -164,10 +164,6 @@ begin
   dbgClientes.Font.Size := 9;
   dbgClientes.TitleFont.Color := CLR_HEADER_TXT;
   dbgClientes.TitleFont.Style := [fsBold];
-  dbgClientes.GridLineWidth  := 1;
-  dbgClientes.FixedColor     := CLR_GRID_HDR;
-  dbgClientes.SelectedColor  := CLR_GRID_SEL;
-  dbgClientes.SelectedFont.Color := clWhite;
 
   // Panel edicion
   pnlEdicion.Color     := CLR_PANEL_BG;
