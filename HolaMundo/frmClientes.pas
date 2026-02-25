@@ -317,8 +317,12 @@ end;
 
 procedure TFormClientes.btnActualizarClick(Sender: TObject);
 begin
-  edtBuscar.Text := '';
-  CargarClientes;
+  // Si habia texto, borrarlo dispara edtBuscarChange que ya llama CargarClientes.
+  // Si ya estaba vacio, hay que recargar manualmente para no ejecutar doble query.
+  if edtBuscar.Text <> '' then
+    edtBuscar.Text := ''
+  else
+    CargarClientes;
   SetEstado('Datos actualizados');
 end;
 
