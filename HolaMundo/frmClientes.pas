@@ -119,6 +119,18 @@ implementation
 
 {$R *.dfm}
 
+// Trucos de acceso a propiedades protegidas via subclase local (sin instancias reales).
+type
+  TButtonColorHack = class(TButton)
+  public
+    property Color;           // TButton hereda Color de TControl pero lo deja protected
+  end;
+
+  TDBGridHack = class(TDBGrid)
+  public
+    property DefaultRowHeight; // TDBGrid lo tiene public pero no published (no persiste en DFM)
+  end;
+
 // ---------------------------------------------------------------------------
 // FormCreate / Destroy
 // ---------------------------------------------------------------------------
@@ -162,6 +174,7 @@ begin
   dbgClientes.Font.Size := 9;
   dbgClientes.TitleFont.Color := CLR_HEADER_TXT;
   dbgClientes.TitleFont.Style := [fsBold];
+  TDBGridHack(dbgClientes).DefaultRowHeight := 26;  // no es published en D12, se pone en codigo
 
   // Panel edicion
   pnlEdicion.Color     := CLR_PANEL_BG;
@@ -211,7 +224,7 @@ begin
   FDConnection.Params.Add('User_Name=SYSDBA');
   FDConnection.Params.Add('Password=masterkey');
   FDConnection.Params.Add('CharacterSet=WIN1252');
-  FDConnection.Params.Add('SQLDialect=1');
+  FDConnection.Params.Add('SQLDialect=1');  // BD creada en dialecto 1
   FDConnection.LoginPrompt := False;
   FDConnection.Connected   := True;
 end;
@@ -436,7 +449,7 @@ begin
   Btn.Cursor     := crHandPoint;
   if BgColor <> clDefault then
   begin
-    Btn.Color      := BgColor;
+    TButtonColorHack(Btn).Color := BgColor;  // accede a la prop. protegida via hack
     Btn.Font.Color := CLR_BTN_TXT;
     SetWindowTheme(Btn.Handle, '', '');  // desactiva el tema visual para mostrar el color
   end;
