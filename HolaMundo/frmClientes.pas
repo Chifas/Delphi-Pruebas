@@ -119,12 +119,16 @@ implementation
 
 {$R *.dfm}
 
-// Truco Delphi: TButton hereda Color de TControl pero lo deja protected.
-// Este tipo local solo la expone como publica para poder asignarla.
+// Trucos de acceso a propiedades protegidas via subclase local (sin instancias reales).
 type
   TButtonColorHack = class(TButton)
   public
-    property Color;
+    property Color;           // TButton hereda Color de TControl pero lo deja protected
+  end;
+
+  TDBGridHack = class(TDBGrid)
+  public
+    property DefaultRowHeight; // TDBGrid lo tiene public pero no published (no persiste en DFM)
   end;
 
 // ---------------------------------------------------------------------------
@@ -170,6 +174,7 @@ begin
   dbgClientes.Font.Size := 9;
   dbgClientes.TitleFont.Color := CLR_HEADER_TXT;
   dbgClientes.TitleFont.Style := [fsBold];
+  TDBGridHack(dbgClientes).DefaultRowHeight := 26;  // no es published en D12, se pone en codigo
 
   // Panel edicion
   pnlEdicion.Color     := CLR_PANEL_BG;
@@ -219,7 +224,7 @@ begin
   FDConnection.Params.Add('User_Name=SYSDBA');
   FDConnection.Params.Add('Password=masterkey');
   FDConnection.Params.Add('CharacterSet=WIN1252');
-  FDConnection.Params.Add('SQLDialect=1');
+  FDConnection.Params.Add('SQLDialect=3');  // dialecto moderno (Firebird 2.5+)
   FDConnection.LoginPrompt := False;
   FDConnection.Connected   := True;
 end;
