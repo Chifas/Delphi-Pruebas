@@ -212,7 +212,8 @@ begin
   FDConnection.Params.Add('Database=C:\Datos\Clientes.gdb');
   FDConnection.Params.Add('User_Name=SYSDBA');
   FDConnection.Params.Add('Password=masterkey');
-  FDConnection.Params.Add('CharacterSet=UTF8');
+  FDConnection.Params.Add('CharacterSet=WIN1252');
+  FDConnection.Params.Add('SQLDialect=1');
   FDConnection.LoginPrompt := False;
   FDConnection.Connected   := True;
 end;
@@ -345,7 +346,7 @@ begin
     begin
       FDConnection.ExecSQL(
         'INSERT INTO CLIENTES (NOMBRE, APELLIDO, EMAIL, TELEFONO, DIRECCION, FECHA_ALTA) ' +
-        'VALUES (:nom, :ape, :email, :tel, :dir, CURRENT_DATE)',
+        'VALUES (:nom, :ape, :email, :tel, :dir, CURRENT_TIMESTAMP)',
         [Trim(edtNombre.Text), Trim(edtApellido.Text),
          Trim(edtEmail.Text), Trim(edtTelefono.Text),
          Trim(edtDireccion.Text)]

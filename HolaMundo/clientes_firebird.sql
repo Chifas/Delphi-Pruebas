@@ -1,13 +1,18 @@
 /* ============================================================
    Script de creacion de tabla CLIENTES en Firebird
    Base de datos: C:\Datos\Clientes.gdb
-   Charset: UTF8
+   Version: Firebird 2.5 - DIALECT 1
+   Charset: WIN1252
+   NOTA Dialect 1: el tipo DATE equivale a TIMESTAMP (incluye hora).
+                   Usar TIMESTAMP y CURRENT_TIMESTAMP en lugar de
+                   DATE y CURRENT_DATE.
    ============================================================ */
 
 /* Crear la base de datos (ejecutar con isql o IBExpert):
    CREATE DATABASE 'C:\Datos\Clientes.gdb'
      USER 'SYSDBA' PASSWORD 'masterkey'
-     DEFAULT CHARACTER SET UTF8;
+     DEFAULT CHARACTER SET WIN1252
+     PAGE_SIZE 8192;
 */
 
 /* Generador (secuencia) para el ID autoincrementable */
@@ -22,7 +27,7 @@ CREATE TABLE CLIENTES (
   EMAIL       VARCHAR(150),
   TELEFONO    VARCHAR(30),
   DIRECCION   VARCHAR(200),
-  FECHA_ALTA  DATE          DEFAULT CURRENT_DATE NOT NULL,
+  FECHA_ALTA  TIMESTAMP     DEFAULT CURRENT_TIMESTAMP NOT NULL,
   CONSTRAINT PK_CLIENTES PRIMARY KEY (ID_CLIENTE)
 );
 
