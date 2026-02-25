@@ -3,11 +3,10 @@ unit frmClientes;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages,
+  Winapi.Windows, Winapi.Messages, Winapi.UxTheme,
   System.SysUtils, System.Variants, System.Classes,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,
-  Vcl.ComCtrls, Vcl.Mask,
   Data.DB,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error,
   FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
@@ -64,7 +63,6 @@ type
 
     // --- Grid ---
     dbgClientes: TDBGrid;
-    sbGrid: TScrollBox;
 
     // --- Panel Edicion ---
     lblEdicionTitulo: TLabel;
@@ -108,7 +106,7 @@ type
     procedure LimpiarEdicion;
     procedure MostrarEdicion(Visible: Boolean);
     procedure CargarClienteEnEdicion;
-    procedure EstiloBoton(Btn: TButton);
+    procedure EstiloBoton(Btn: TButton; BgColor: TColor = clDefault);
     procedure ActualizarContador;
     procedure SetEstado(const Msg: string);
   public
@@ -148,9 +146,9 @@ begin
   pnlToolbar.BevelOuter := bvNone;
 
   // Botones toolbar
-  EstiloBoton(btnNuevo);
-  EstiloBoton(btnEditar);
-  EstiloBoton(btnEliminar);
+  EstiloBoton(btnNuevo,     CLR_BTN_NUEVO);
+  EstiloBoton(btnEditar,    CLR_BTN_EDITAR);
+  EstiloBoton(btnEliminar,  CLR_BTN_ELIMINAR);
   EstiloBoton(btnActualizar);
 
   // Buscar
@@ -173,8 +171,8 @@ begin
   lblEdicionTitulo.Font.Size  := 11;
   lblEdicionTitulo.Font.Style := [fsBold];
   lblEdicionTitulo.Font.Color := CLR_ACCENT;
-  EstiloBoton(btnGuardar);
-  EstiloBoton(btnCancelar);
+  EstiloBoton(btnGuardar,  CLR_BTN_GUARDAR);
+  EstiloBoton(btnCancelar, CLR_BTN_CANCELAR);
 
   // Footer
   pnlFooter.Color     := CLR_HEADER_BG;
@@ -212,7 +210,8 @@ begin
   FDConnection.Params.Add('Database=C:\Datos\Clientes.gdb');
   FDConnection.Params.Add('User_Name=SYSDBA');
   FDConnection.Params.Add('Password=masterkey');
-  FDConnection.Params.Add('CharacterSet=UTF8');
+  FDConnection.Params.Add('CharacterSet=WIN1252');
+  FDConnection.Params.Add('SQLDialect=1');
   FDConnection.LoginPrompt := False;
   FDConnection.Connected   := True;
 end;
@@ -316,8 +315,12 @@ end;
 
 procedure TFormClientes.btnActualizarClick(Sender: TObject);
 begin
-  edtBuscar.Text := '';
-  CargarClientes;
+  // Si habia texto, borrarlo dispara edtBuscarChange que ya llama CargarClientes.
+  // Si ya estaba vacio, hay que recargar manualmente para no ejecutar doble query.
+  if edtBuscar.Text <> '' then
+    edtBuscar.Text := ''
+  else
+    CargarClientes;
   SetEstado('Datos actualizados');
 end;
 
@@ -345,7 +348,7 @@ begin
     begin
       FDConnection.ExecSQL(
         'INSERT INTO CLIENTES (NOMBRE, APELLIDO, EMAIL, TELEFONO, DIRECCION, FECHA_ALTA) ' +
-        'VALUES (:nom, :ape, :email, :tel, :dir, CURRENT_DATE)',
+        'VALUES (:nom, :ape, :email, :tel, :dir, CURRENT_TIMESTAMP)',
         [Trim(edtNombre.Text), Trim(edtApellido.Text),
          Trim(edtEmail.Text), Trim(edtTelefono.Text),
          Trim(edtDireccion.Text)]
@@ -426,11 +429,17 @@ end;
 // ---------------------------------------------------------------------------
 // Helpers privados
 // ---------------------------------------------------------------------------
-procedure TFormClientes.EstiloBoton(Btn: TButton);
+procedure TFormClientes.EstiloBoton(Btn: TButton; BgColor: TColor);
 begin
   Btn.Font.Style := [fsBold];
   Btn.Font.Size  := 9;
   Btn.Cursor     := crHandPoint;
+  if BgColor <> clDefault then
+  begin
+    Btn.Color      := BgColor;
+    Btn.Font.Color := CLR_BTN_TXT;
+    SetWindowTheme(Btn.Handle, '', '');  // desactiva el tema visual para mostrar el color
+  end;
 end;
 
 procedure TFormClientes.LimpiarEdicion;
@@ -462,7 +471,10 @@ end;
 procedure TFormClientes.ActualizarContador;
 begin
   if FDQuery.Active then
+  begin
+    FDQuery.FetchAll;  // garantiza que FireDAC haya traido todos los registros
     lblContador.Caption := Format('%d cliente(s)', [FDQuery.RecordCount])
+  end
   else
     lblContador.Caption := '0 clientes';
 end;
