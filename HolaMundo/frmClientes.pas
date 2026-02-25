@@ -224,7 +224,7 @@ begin
   FDConnection.Params.Add('User_Name=SYSDBA');
   FDConnection.Params.Add('Password=masterkey');
   FDConnection.Params.Add('CharacterSet=WIN1252');
-  FDConnection.Params.Add('SQLDialect=3');  // dialecto moderno (Firebird 2.5+)
+  FDConnection.Params.Add('SQLDialect=1');  // BD creada en dialecto 1
   FDConnection.LoginPrompt := False;
   FDConnection.Connected   := True;
 end;
