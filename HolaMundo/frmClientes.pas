@@ -119,6 +119,14 @@ implementation
 
 {$R *.dfm}
 
+// Truco Delphi: TButton hereda Color de TControl pero lo deja protected.
+// Este tipo local solo la expone como publica para poder asignarla.
+type
+  TButtonColorHack = class(TButton)
+  public
+    property Color;
+  end;
+
 // ---------------------------------------------------------------------------
 // FormCreate / Destroy
 // ---------------------------------------------------------------------------
@@ -436,7 +444,7 @@ begin
   Btn.Cursor     := crHandPoint;
   if BgColor <> clDefault then
   begin
-    Btn.Color      := BgColor;
+    TButtonColorHack(Btn).Color := BgColor;  // accede a la prop. protegida via hack
     Btn.Font.Color := CLR_BTN_TXT;
     SetWindowTheme(Btn.Handle, '', '');  // desactiva el tema visual para mostrar el color
   end;
