@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ProjectGuid>{A1B2C3D4-E5F6-7890-ABCD-EF1234567890}</ProjectGuid>
     <ProjectVersion>19.4</ProjectVersion>
-    <FrameworkType>VCL</FrameworkType>
+    <FrameworkType>FMX</FrameworkType>
     <MainSource>HolaMundo.dpr</MainSource>
     <Base>True</Base>
     <Config Condition="'$(Config)'==''">Debug</Config>
@@ -57,7 +57,7 @@
   <PropertyGroup Condition="'$(Base)'!=''">
     <SanitizedProjectName>HolaMundo</SanitizedProjectName>
     <OutputExt>exe</OutputExt>
-    <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace);System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell</DCC_Namespace>
+    <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;FMX;$(DCC_Namespace)</DCC_Namespace>
     <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
     <DCC_DcuOutput>.\$(Config)\$(Platform)</DCC_DcuOutput>
     <DCC_ExeOutput>.\$(Config)\$(Platform)</DCC_ExeOutput>
@@ -88,14 +88,14 @@
   </PropertyGroup>
   <!-- Plataforma Win32 -->
   <PropertyGroup Condition="'$(Base_Win32)'!=''">
-    <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+    <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;FMX;$(DCC_Namespace)</DCC_Namespace>
     <VerInfo_FileName>$(OUTPUTDIR)$(PROJECTNAME).exe</VerInfo_FileName>
     <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     <VerInfo_Locale>3082</VerInfo_Locale>
   </PropertyGroup>
   <!-- Plataforma Win64 -->
   <PropertyGroup Condition="'$(Base_Win64)'!=''">
-    <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
+    <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;FMX;$(DCC_Namespace)</DCC_Namespace>
     <VerInfo_FileName>$(OUTPUTDIR)$(PROJECTNAME).exe</VerInfo_FileName>
     <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     <VerInfo_Locale>3082</VerInfo_Locale>
@@ -106,9 +106,11 @@
     </DelphiCompile>
     <DCCReference Include="frmPrincipal.pas">
       <Form>FormPrincipal</Form>
+      <FormType>fmx</FormType>
     </DCCReference>
     <DCCReference Include="frmClientes.pas">
       <Form>FormClientes</Form>
+      <FormType>fmx</FormType>
     </DCCReference>
     <BuildConfiguration Include="Debug">
       <Key>Cfg_1</Key>

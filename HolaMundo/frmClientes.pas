@@ -3,57 +3,64 @@ unit frmClientes;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, Winapi.UxTheme,
-  System.SysUtils, System.Variants, System.Classes,
-  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
-  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Grids, Vcl.DBGrids,
+  System.SysUtils, System.Types, System.UITypes, System.Classes,
+  System.Variants, System.Rtti,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
+  FMX.StdCtrls, FMX.Controls.Presentation, FMX.Layouts, FMX.Objects,
+  FMX.Edit, FMX.Grid, FMX.Grid.Style, FMX.ScrollBox,
   Data.DB,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error,
   FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
   FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
   FireDAC.Phys.FB, FireDAC.Phys.FBDef,
-  FireDAC.VCLUI.Wait, FireDAC.Stan.Param,
+  FireDAC.FMXUI.Wait, FireDAC.Stan.Param,
   FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
   FireDAC.Comp.Client, FireDAC.Comp.DataSet;
 
 // ---------------------------------------------------------------------------
-// Colores del tema moderno
+// Colores del tema moderno (TAlphaColor - formato ARGB)
 // ---------------------------------------------------------------------------
 const
-  CLR_HEADER_BG   = $00292D3E;  // Gris azulado oscuro (fondo header)
-  CLR_HEADER_TXT  = $00FFFFFF;  // Blanco
-  CLR_BTN_NUEVO   = $0043A047;  // Verde moderno
-  CLR_BTN_EDITAR  = $001E88E5;  // Azul moderno
-  CLR_BTN_ELIMINAR= $00E53935;  // Rojo moderno
-  CLR_BTN_GUARDAR = $0043A047;  // Verde
-  CLR_BTN_CANCELAR= $00757575;  // Gris
-  CLR_BTN_TXT     = $00FFFFFF;
-  CLR_FORM_BG     = $00F5F5F5;  // Gris muy claro
-  CLR_PANEL_BG    = $00FFFFFF;
-  CLR_GRID_HDR    = $00455A64;  // Gris azulado grid header
-  CLR_GRID_SEL    = $001565C0;  // Azul seleccion
-  CLR_BORDER      = $00E0E0E0;
-  CLR_ACCENT      = $001E88E5;  // Azul acento
+  CLR_HEADER_BG    = TAlphaColor($FF292D3E);  // Gris azulado oscuro
+  CLR_HEADER_TXT   = TAlphaColor($FFFFFFFF);  // Blanco
+  CLR_BTN_NUEVO    = TAlphaColor($FF43A047);  // Verde moderno
+  CLR_BTN_EDITAR   = TAlphaColor($FF1E88E5);  // Azul moderno
+  CLR_BTN_ELIMINAR = TAlphaColor($FFE53935);  // Rojo moderno
+  CLR_BTN_GUARDAR  = TAlphaColor($FF43A047);  // Verde
+  CLR_BTN_CANCELAR = TAlphaColor($FF757575);  // Gris
+  CLR_BTN_TXT      = TAlphaColor($FFFFFFFF);
+  CLR_FORM_BG      = TAlphaColor($FFF5F5F5);  // Gris muy claro
+  CLR_PANEL_BG     = TAlphaColor($FFFFFFFF);
+  CLR_GRID_HDR     = TAlphaColor($FF455A64);  // Gris azulado grid header
+  CLR_GRID_SEL     = TAlphaColor($FF1565C0);  // Azul seleccion
+  CLR_BORDER       = TAlphaColor($FFE0E0E0);
+  CLR_ACCENT       = TAlphaColor($FF1E88E5);  // Azul acento
+  CLR_SUB_TXT      = TAlphaColor($FFB0BEC5);
+  CLR_LABEL_TXT    = TAlphaColor($FF707070);
+  CLR_ROW_ALT      = TAlphaColor($FFF8F9FA);  // Fila alternada
 
 type
+  TModoEdicion = (meNone, meNuevo, meEditar);
+
   TFormClientes = class(TForm)
     // --- Conexion Firebird ---
     FDConnection: TFDConnection;
     FDQuery: TFDQuery;
-    dsClientes: TDataSource;
 
     // --- Layout principal ---
-    pnlHeader: TPanel;
-    pnlToolbar: TPanel;
-    pnlGrid: TPanel;
-    pnlEdicion: TPanel;
-    pnlFooter: TPanel;
+    rectFondo: TRectangle;
+    rectHeader: TRectangle;
+    layToolbar: TLayout;
+    layGrid: TLayout;
+    layEdicion: TLayout;
+    rectFooter: TRectangle;
 
     // --- Header ---
     lblTituloHeader: TLabel;
     lblSubHeader: TLabel;
 
     // --- Toolbar ---
+    rectToolbar: TRectangle;
     btnNuevo: TButton;
     btnEditar: TButton;
     btnEliminar: TButton;
@@ -62,9 +69,17 @@ type
     lblBuscar: TLabel;
 
     // --- Grid ---
-    dbgClientes: TDBGrid;
+    grdClientes: TStringGrid;
+    colID: TStringColumn;
+    colNombre: TStringColumn;
+    colApellido: TStringColumn;
+    colEmail: TStringColumn;
+    colTelefono: TStringColumn;
+    colFechaAlta: TStringColumn;
 
     // --- Panel Edicion ---
+    rectEdicion: TRectangle;
+    rectSeparador: TRectangle;
     lblEdicionTitulo: TLabel;
     lblNombre: TLabel;
     lblApellido: TLabel;
@@ -78,7 +93,6 @@ type
     edtDireccion: TEdit;
     btnGuardar: TButton;
     btnCancelar: TButton;
-    pnlSeparador: TPanel;
 
     // --- Footer ---
     lblEstado: TLabel;
@@ -92,23 +106,23 @@ type
     procedure btnActualizarClick(Sender: TObject);
     procedure btnGuardarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
-    procedure edtBuscarChange(Sender: TObject);
-    procedure dbgClientesDblClick(Sender: TObject);
-    procedure dbgClientesDrawColumnCell(Sender: TObject; const Rect: TRect;
-      DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure edtBuscarChangeTracking(Sender: TObject);
+    procedure grdClientesCellDblClick(const Column: TColumn; const Row: Integer);
 
   private
-    FModoEdicion: (meNone, meNuevo, meEditar);
+    FModoEdicion: TModoEdicion;
     FIDClienteEditar: Integer;
+    FIDList: TArray<Integer>;
 
     procedure ConectarFirebird;
     procedure CargarClientes(const Filtro: string = '');
     procedure LimpiarEdicion;
     procedure MostrarEdicion(Visible: Boolean);
     procedure CargarClienteEnEdicion;
-    procedure EstiloBoton(Btn: TButton; BgColor: TColor = clDefault);
     procedure ActualizarContador;
     procedure SetEstado(const Msg: string);
+    procedure PoblarGrid;
+    function GetSelectedID: Integer;
   public
   end;
 
@@ -117,19 +131,7 @@ var
 
 implementation
 
-{$R *.dfm}
-
-// Trucos de acceso a propiedades protegidas via subclase local (sin instancias reales).
-type
-  TButtonColorHack = class(TButton)
-  public
-    property Color;           // TButton hereda Color de TControl pero lo deja protected
-  end;
-
-  TDBGridHack = class(TDBGrid)
-  public
-    property DefaultRowHeight; // TDBGrid lo tiene public pero no published (no persiste en DFM)
-  end;
+{$R *.fmx}
 
 // ---------------------------------------------------------------------------
 // FormCreate / Destroy
@@ -138,60 +140,6 @@ procedure TFormClientes.FormCreate(Sender: TObject);
 begin
   FModoEdicion := meNone;
   FIDClienteEditar := 0;
-
-  // Estilos del form
-  Color := CLR_FORM_BG;
-  Font.Name := 'Segoe UI';
-  Font.Size := 9;
-
-  // Header
-  pnlHeader.Color     := CLR_HEADER_BG;
-  pnlHeader.BevelOuter := bvNone;
-  lblTituloHeader.Font.Color := CLR_HEADER_TXT;
-  lblTituloHeader.Font.Size  := 16;
-  lblTituloHeader.Font.Style := [fsBold];
-  lblSubHeader.Font.Color    := $00B0BEC5;
-  lblSubHeader.Font.Size     := 9;
-
-  // Toolbar
-  pnlToolbar.Color     := CLR_PANEL_BG;
-  pnlToolbar.BevelOuter := bvNone;
-
-  // Botones toolbar
-  EstiloBoton(btnNuevo,     CLR_BTN_NUEVO);
-  EstiloBoton(btnEditar,    CLR_BTN_EDITAR);
-  EstiloBoton(btnEliminar,  CLR_BTN_ELIMINAR);
-  EstiloBoton(btnActualizar);
-
-  // Buscar
-  edtBuscar.Color    := CLR_PANEL_BG;
-  edtBuscar.Font.Size := 9;
-
-  // Grid
-  pnlGrid.Color     := CLR_PANEL_BG;
-  pnlGrid.BevelOuter := bvNone;
-  dbgClientes.Color  := CLR_PANEL_BG;
-  dbgClientes.Font.Size := 9;
-  dbgClientes.TitleFont.Color := CLR_HEADER_TXT;
-  dbgClientes.TitleFont.Style := [fsBold];
-  TDBGridHack(dbgClientes).DefaultRowHeight := 26;  // no es published en D12, se pone en codigo
-
-  // Panel edicion
-  pnlEdicion.Color     := CLR_PANEL_BG;
-  pnlEdicion.BevelOuter := bvNone;
-  pnlSeparador.Color   := CLR_ACCENT;
-  pnlSeparador.BevelOuter := bvNone;
-  lblEdicionTitulo.Font.Size  := 11;
-  lblEdicionTitulo.Font.Style := [fsBold];
-  lblEdicionTitulo.Font.Color := CLR_ACCENT;
-  EstiloBoton(btnGuardar,  CLR_BTN_GUARDAR);
-  EstiloBoton(btnCancelar, CLR_BTN_CANCELAR);
-
-  // Footer
-  pnlFooter.Color     := CLR_HEADER_BG;
-  pnlFooter.BevelOuter := bvNone;
-  lblEstado.Font.Color  := $00B0BEC5;
-  lblContador.Font.Color := $00B0BEC5;
 
   MostrarEdicion(False);
 
@@ -224,9 +172,9 @@ begin
   FDConnection.Params.Add('User_Name=SYSDBA');
   FDConnection.Params.Add('Password=masterkey');
   FDConnection.Params.Add('CharacterSet=WIN1252');
-  FDConnection.Params.Add('SQLDialect=1');  // BD creada en dialecto 1
+  FDConnection.Params.Add('SQLDialect=1');
   FDConnection.LoginPrompt := False;
-  FDConnection.Connected   := True;
+  FDConnection.Connected := True;
 end;
 
 // ---------------------------------------------------------------------------
@@ -254,7 +202,51 @@ begin
     FDQuery.ParamByName('filtro').AsString := Filtro;
 
   FDQuery.Active := True;
+  FDQuery.FetchAll;
+  PoblarGrid;
   ActualizarContador;
+end;
+
+// ---------------------------------------------------------------------------
+// Poblar el StringGrid desde el FDQuery
+// ---------------------------------------------------------------------------
+procedure TFormClientes.PoblarGrid;
+var
+  Row: Integer;
+begin
+  grdClientes.RowCount := 0;
+
+  if not FDQuery.Active then
+    Exit;
+
+  grdClientes.RowCount := FDQuery.RecordCount;
+  SetLength(FIDList, FDQuery.RecordCount);
+
+  FDQuery.First;
+  Row := 0;
+  while not FDQuery.Eof do
+  begin
+    FIDList[Row] := FDQuery.FieldByName('ID_CLIENTE').AsInteger;
+    grdClientes.Cells[0, Row] := FDQuery.FieldByName('ID_CLIENTE').AsString;
+    grdClientes.Cells[1, Row] := FDQuery.FieldByName('NOMBRE').AsString;
+    grdClientes.Cells[2, Row] := FDQuery.FieldByName('APELLIDO').AsString;
+    grdClientes.Cells[3, Row] := FDQuery.FieldByName('EMAIL').AsString;
+    grdClientes.Cells[4, Row] := FDQuery.FieldByName('TELEFONO').AsString;
+    grdClientes.Cells[5, Row] := FormatDateTime('dd/mm/yyyy',
+      FDQuery.FieldByName('FECHA_ALTA').AsDateTime);
+    FDQuery.Next;
+    Inc(Row);
+  end;
+end;
+
+// ---------------------------------------------------------------------------
+// Obtener el ID del cliente seleccionado en el grid
+// ---------------------------------------------------------------------------
+function TFormClientes.GetSelectedID: Integer;
+begin
+  Result := -1;
+  if (grdClientes.Selected >= 0) and (grdClientes.Selected < Length(FIDList)) then
+    Result := FIDList[grdClientes.Selected];
 end;
 
 // ---------------------------------------------------------------------------
@@ -265,71 +257,88 @@ begin
   FModoEdicion := meNuevo;
   FIDClienteEditar := 0;
   LimpiarEdicion;
-  lblEdicionTitulo.Caption := 'Nuevo Cliente';
+  lblEdicionTitulo.Text := 'Nuevo Cliente';
   MostrarEdicion(True);
   edtNombre.SetFocus;
 end;
 
 procedure TFormClientes.btnEditarClick(Sender: TObject);
 begin
-  if not FDQuery.Active or FDQuery.IsEmpty then
+  if (not FDQuery.Active) or (grdClientes.RowCount = 0) or
+     (grdClientes.Selected < 0) then
   begin
     SetEstado('Seleccione un cliente para editar');
     Exit;
   end;
+
   FModoEdicion := meEditar;
-  FIDClienteEditar := FDQuery.FieldByName('ID_CLIENTE').AsInteger;
-  lblEdicionTitulo.Caption := 'Editar Cliente';
+  FIDClienteEditar := GetSelectedID;
+
+  // Ubicar el registro en el query
+  FDQuery.First;
+  while not FDQuery.Eof do
+  begin
+    if FDQuery.FieldByName('ID_CLIENTE').AsInteger = FIDClienteEditar then
+      Break;
+    FDQuery.Next;
+  end;
+
+  lblEdicionTitulo.Text := 'Editar Cliente';
   CargarClienteEnEdicion;
   MostrarEdicion(True);
   edtNombre.SetFocus;
 end;
 
-procedure TFormClientes.dbgClientesDblClick(Sender: TObject);
+procedure TFormClientes.grdClientesCellDblClick(const Column: TColumn;
+  const Row: Integer);
 begin
-  btnEditarClick(Sender);
+  btnEditarClick(nil);
 end;
 
 procedure TFormClientes.btnEliminarClick(Sender: TObject);
 var
   ID: Integer;
   Nombre: string;
+  SelRow: Integer;
 begin
-  if not FDQuery.Active or FDQuery.IsEmpty then
+  if (not FDQuery.Active) or (grdClientes.RowCount = 0) or
+     (grdClientes.Selected < 0) then
   begin
     SetEstado('Seleccione un cliente para eliminar');
     Exit;
   end;
 
-  ID     := FDQuery.FieldByName('ID_CLIENTE').AsInteger;
-  Nombre := FDQuery.FieldByName('NOMBRE').AsString + ' ' +
-            FDQuery.FieldByName('APELLIDO').AsString;
+  SelRow := grdClientes.Selected;
+  ID := FIDList[SelRow];
+  Nombre := grdClientes.Cells[1, SelRow] + ' ' + grdClientes.Cells[2, SelRow];
 
-  if MessageDlg(
-       Format('¿Eliminar al cliente "%s"? Esta accion no se puede deshacer.', [Nombre]),
-       mtWarning, [mbYes, mbNo], 0) <> mrYes then
-    Exit;
-
-  try
-    FDConnection.ExecSQL(
-      'DELETE FROM CLIENTES WHERE ID_CLIENTE = :id',
-      [ID]
-    );
-    SetEstado(Format('Cliente "%s" eliminado correctamente', [Nombre]));
-    CargarClientes(edtBuscar.Text);
-  except
-    on E: Exception do
+  MessageDlg(
+    Format('Eliminar al cliente "%s"? Esta accion no se puede deshacer.', [Nombre]),
+    TMsgDlgType.mtWarning, [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0,
+    procedure(const AResult: TModalResult)
     begin
-      MessageDlg('Error al eliminar: ' + E.Message, mtError, [mbOK], 0);
-      SetEstado('Error al eliminar cliente');
-    end;
-  end;
+      if AResult <> mrYes then
+        Exit;
+      try
+        FDConnection.ExecSQL(
+          'DELETE FROM CLIENTES WHERE ID_CLIENTE = :id',
+          [ID]
+        );
+        SetEstado(Format('Cliente "%s" eliminado correctamente', [Nombre]));
+        CargarClientes(edtBuscar.Text);
+      except
+        on E: Exception do
+        begin
+          ShowMessage('Error al eliminar: ' + E.Message);
+          SetEstado('Error al eliminar cliente');
+        end;
+      end;
+    end
+  );
 end;
 
 procedure TFormClientes.btnActualizarClick(Sender: TObject);
 begin
-  // Si habia texto, borrarlo dispara edtBuscarChange que ya llama CargarClientes.
-  // Si ya estaba vacio, hay que recargar manualmente para no ejecutar doble query.
   if edtBuscar.Text <> '' then
     edtBuscar.Text := ''
   else
@@ -345,13 +354,13 @@ begin
   // Validaciones basicas
   if Trim(edtNombre.Text) = '' then
   begin
-    MessageDlg('El nombre es obligatorio.', mtWarning, [mbOK], 0);
+    ShowMessage('El nombre es obligatorio.');
     edtNombre.SetFocus;
     Exit;
   end;
   if Trim(edtApellido.Text) = '' then
   begin
-    MessageDlg('El apellido es obligatorio.', mtWarning, [mbOK], 0);
+    ShowMessage('El apellido es obligatorio.');
     edtApellido.SetFocus;
     Exit;
   end;
@@ -386,7 +395,7 @@ begin
   except
     on E: Exception do
     begin
-      MessageDlg('Error al guardar: ' + E.Message, mtError, [mbOK], 0);
+      ShowMessage('Error al guardar: ' + E.Message);
       SetEstado('Error al guardar cliente');
     end;
   end;
@@ -402,59 +411,15 @@ end;
 // ---------------------------------------------------------------------------
 // Busqueda en tiempo real
 // ---------------------------------------------------------------------------
-procedure TFormClientes.edtBuscarChange(Sender: TObject);
+procedure TFormClientes.edtBuscarChangeTracking(Sender: TObject);
 begin
   if FDConnection.Connected then
     CargarClientes(edtBuscar.Text);
 end;
 
 // ---------------------------------------------------------------------------
-// Dibujo custom del Grid (filas alternadas)
-// ---------------------------------------------------------------------------
-procedure TFormClientes.dbgClientesDrawColumnCell(Sender: TObject;
-  const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
-begin
-  if gdSelected in State then
-  begin
-    dbgClientes.Canvas.Brush.Color := CLR_GRID_SEL;
-    dbgClientes.Canvas.Font.Color  := clWhite;
-  end
-  else if (FDQuery.RecNo mod 2 = 0) then
-  begin
-    dbgClientes.Canvas.Brush.Color := $00F8F9FA;
-    dbgClientes.Canvas.Font.Color  := clBlack;
-  end
-  else
-  begin
-    dbgClientes.Canvas.Brush.Color := clWhite;
-    dbgClientes.Canvas.Font.Color  := clBlack;
-  end;
-
-  dbgClientes.Canvas.FillRect(Rect);
-  dbgClientes.Canvas.TextRect(
-    Rect,
-    Rect.Left + 4,
-    Rect.Top + 3,
-    Column.Field.DisplayText
-  );
-end;
-
-// ---------------------------------------------------------------------------
 // Helpers privados
 // ---------------------------------------------------------------------------
-procedure TFormClientes.EstiloBoton(Btn: TButton; BgColor: TColor);
-begin
-  Btn.Font.Style := [fsBold];
-  Btn.Font.Size  := 9;
-  Btn.Cursor     := crHandPoint;
-  if BgColor <> clDefault then
-  begin
-    TButtonColorHack(Btn).Color := BgColor;  // accede a la prop. protegida via hack
-    Btn.Font.Color := CLR_BTN_TXT;
-    SetWindowTheme(Btn.Handle, '', '');  // desactiva el tema visual para mostrar el color
-  end;
-end;
-
 procedure TFormClientes.LimpiarEdicion;
 begin
   edtNombre.Text    := '';
@@ -466,10 +431,16 @@ end;
 
 procedure TFormClientes.MostrarEdicion(Visible: Boolean);
 begin
-  pnlEdicion.Visible := Visible;
+  layEdicion.Visible := Visible;
   btnEditar.Enabled  := not Visible;
   btnEliminar.Enabled := not Visible;
   btnNuevo.Enabled   := not Visible;
+
+  // Ajustar ancho del grid segun si el panel edicion esta visible
+  if Visible then
+    layGrid.Align := TAlignLayout.Client
+  else
+    layGrid.Align := TAlignLayout.Client;
 end;
 
 procedure TFormClientes.CargarClienteEnEdicion;
@@ -484,18 +455,14 @@ end;
 procedure TFormClientes.ActualizarContador;
 begin
   if FDQuery.Active then
-  begin
-    FDQuery.FetchAll;  // garantiza que FireDAC haya traido todos los registros
-    lblContador.Caption := Format('%d cliente(s)', [FDQuery.RecordCount])
-  end
+    lblContador.Text := Format('%d cliente(s)', [FDQuery.RecordCount])
   else
-    lblContador.Caption := '0 clientes';
+    lblContador.Text := '0 clientes';
 end;
 
 procedure TFormClientes.SetEstado(const Msg: string);
 begin
-  lblEstado.Caption := '  ' + Msg;
-  Application.ProcessMessages;
+  lblEstado.Text := '  ' + Msg;
 end;
 
 end.

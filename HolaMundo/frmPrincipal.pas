@@ -3,27 +3,33 @@ unit frmPrincipal;
 interface
 
 uses
-  Winapi.Windows,
-  Winapi.Messages,
   System.SysUtils,
-  System.Variants,
+  System.Types,
+  System.UITypes,
   System.Classes,
-  Vcl.Graphics,
-  Vcl.Controls,
-  Vcl.Forms,
-  Vcl.Dialogs,
-  Vcl.StdCtrls,
-  Vcl.ExtCtrls;
+  System.Variants,
+  FMX.Types,
+  FMX.Controls,
+  FMX.Forms,
+  FMX.Graphics,
+  FMX.Dialogs,
+  FMX.StdCtrls,
+  FMX.Controls.Presentation,
+  FMX.Layouts,
+  FMX.Objects,
+  FMX.Effects;
 
 type
   TFormPrincipal = class(TForm)
-    pnlCentro: TPanel;
+    rectFondo: TRectangle;
+    layContenido: TLayout;
     lblTitulo: TLabel;
     lblSubtitulo: TLabel;
+    layBotones: TLayout;
     btnSaludar: TButton;
     btnClientes: TButton;
     btnSalir: TButton;
-    procedure FormCreate(Sender: TObject);
+    shadowTitulo: TShadowEffect;
     procedure btnSaludarClick(Sender: TObject);
     procedure btnClientesClick(Sender: TObject);
     procedure btnSalirClick(Sender: TObject);
@@ -41,40 +47,41 @@ implementation
 uses
   frmClientes;
 
-{$R *.dfm}
-
-procedure TFormPrincipal.FormCreate(Sender: TObject);
-begin
-  Self.Position := poScreenCenter;
-end;
+{$R *.fmx}
 
 procedure TFormPrincipal.btnSaludarClick(Sender: TObject);
 begin
   ShowMessage(
-    '¡Hola Mundo!' + sLineBreak +
+    '!Hola Mundo!' + sLineBreak +
     sLineBreak +
     'Este es mi primer programa en Delphi 12.' + sLineBreak +
-    'Embarcadero® Delphi 12 - Version 29.0'
+    'Embarcadero Delphi 12 - Version 29.0' + sLineBreak +
+    'Ahora con FireMonkey (FMX)!'
   );
 end;
 
 procedure TFormPrincipal.btnClientesClick(Sender: TObject);
 var
-  FrmClientes: TFormClientes;
+  Frm: TFormClientes;
 begin
-  FrmClientes := TFormClientes.Create(Self);
+  Frm := TFormClientes.Create(Self);
   try
-    FrmClientes.ShowModal;
+    Frm.ShowModal;
   finally
-    FrmClientes.Free;
+    Frm.Free;
   end;
 end;
 
 procedure TFormPrincipal.btnSalirClick(Sender: TObject);
 begin
-  if MessageDlg('¿Desea salir de la aplicacion?',
-                mtConfirmation, [mbYes, mbNo], 0) = mrYes then
-    Application.Terminate;
+  MessageDlg('Desea salir de la aplicacion?',
+    TMsgDlgType.mtConfirmation, [TMsgDlgBtn.mbYes, TMsgDlgBtn.mbNo], 0,
+    procedure(const AResult: TModalResult)
+    begin
+      if AResult = mrYes then
+        Application.Terminate;
+    end
+  );
 end;
 
 end.

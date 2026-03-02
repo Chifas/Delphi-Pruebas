@@ -1,7 +1,7 @@
 program HolaMundo;
 
 uses
-  Vcl.Forms,
+  FMX.Forms,
   frmPrincipal in 'frmPrincipal.pas' {FormPrincipal},
   frmClientes in 'frmClientes.pas' {FormClientes};
 
@@ -9,7 +9,6 @@ uses
 
 begin
   Application.Initialize;
-  Application.MainFormOnTaskbar := True;
   Application.Title := 'Hola Mundo - Delphi 12';
   Application.CreateForm(TFormPrincipal, FormPrincipal);
   Application.Run;
