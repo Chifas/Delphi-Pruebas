@@ -17,28 +17,6 @@ uses
   FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
   FireDAC.Comp.Client, FireDAC.Comp.DataSet;
 
-// ---------------------------------------------------------------------------
-// Colores del tema moderno (TAlphaColor - formato ARGB)
-// ---------------------------------------------------------------------------
-const
-  CLR_HEADER_BG    = TAlphaColor($FF292D3E);  // Gris azulado oscuro
-  CLR_HEADER_TXT   = TAlphaColor($FFFFFFFF);  // Blanco
-  CLR_BTN_NUEVO    = TAlphaColor($FF43A047);  // Verde moderno
-  CLR_BTN_EDITAR   = TAlphaColor($FF1E88E5);  // Azul moderno
-  CLR_BTN_ELIMINAR = TAlphaColor($FFE53935);  // Rojo moderno
-  CLR_BTN_GUARDAR  = TAlphaColor($FF43A047);  // Verde
-  CLR_BTN_CANCELAR = TAlphaColor($FF757575);  // Gris
-  CLR_BTN_TXT      = TAlphaColor($FFFFFFFF);
-  CLR_FORM_BG      = TAlphaColor($FFF5F5F5);  // Gris muy claro
-  CLR_PANEL_BG     = TAlphaColor($FFFFFFFF);
-  CLR_GRID_HDR     = TAlphaColor($FF455A64);  // Gris azulado grid header
-  CLR_GRID_SEL     = TAlphaColor($FF1565C0);  // Azul seleccion
-  CLR_BORDER       = TAlphaColor($FFE0E0E0);
-  CLR_ACCENT       = TAlphaColor($FF1E88E5);  // Azul acento
-  CLR_SUB_TXT      = TAlphaColor($FFB0BEC5);
-  CLR_LABEL_TXT    = TAlphaColor($FF707070);
-  CLR_ROW_ALT      = TAlphaColor($FFF8F9FA);  // Fila alternada
-
 type
   TModoEdicion = (meNone, meNuevo, meEditar);
 
@@ -48,55 +26,63 @@ type
     FDQuery: TFDQuery;
 
     // --- Layout principal ---
-    rectFondo: TRectangle;
-    rectHeader: TRectangle;
-    layToolbar: TLayout;
-    layGrid: TLayout;
-    layEdicion: TLayout;
-    rectFooter: TRectangle;
+    rectFondo     : TRectangle;
+    rectHeader    : TRectangle;
+    layToolbar    : TLayout;
+    layGrid       : TLayout;
+    layEdicion    : TLayout;
+    rectFooter    : TRectangle;
 
     // --- Header ---
-    lblTituloHeader: TLabel;
-    lblSubHeader: TLabel;
+    lblTituloHeader : TLabel;
+    lblSubHeader    : TLabel;
+    btnTemaCli      : TRectangle;
+    txtBtnTemaCli   : TLabel;
 
     // --- Toolbar ---
-    rectToolbar: TRectangle;
-    btnNuevo: TButton;
-    btnEditar: TButton;
-    btnEliminar: TButton;
-    btnActualizar: TButton;
-    edtBuscar: TEdit;
-    lblBuscar: TLabel;
+    rectToolbar      : TRectangle;
+    btnNuevo         : TRectangle;
+    txtBtnNuevo      : TLabel;
+    btnEditar        : TRectangle;
+    txtBtnEditar     : TLabel;
+    btnEliminar      : TRectangle;
+    txtBtnEliminar   : TLabel;
+    btnActualizar    : TRectangle;
+    txtBtnActualizar : TLabel;
+    lblBuscar        : TLabel;
+    edtBuscar        : TEdit;
 
     // --- Grid ---
-    grdClientes: TStringGrid;
-    colID: TStringColumn;
-    colNombre: TStringColumn;
-    colApellido: TStringColumn;
-    colEmail: TStringColumn;
-    colTelefono: TStringColumn;
-    colFechaAlta: TStringColumn;
+    grdClientes  : TStringGrid;
+    colID        : TStringColumn;
+    colNombre    : TStringColumn;
+    colApellido  : TStringColumn;
+    colEmail     : TStringColumn;
+    colTelefono  : TStringColumn;
+    colFechaAlta : TStringColumn;
 
     // --- Panel Edicion ---
-    rectEdicion: TRectangle;
-    rectSeparador: TRectangle;
+    rectEdicion    : TRectangle;
+    rectSeparador  : TRectangle;
     lblEdicionTitulo: TLabel;
-    lblNombre: TLabel;
-    lblApellido: TLabel;
-    lblEmail: TLabel;
-    lblTelefono: TLabel;
-    lblDireccion: TLabel;
-    edtNombre: TEdit;
-    edtApellido: TEdit;
-    edtEmail: TEdit;
-    edtTelefono: TEdit;
-    edtDireccion: TEdit;
-    btnGuardar: TButton;
-    btnCancelar: TButton;
+    lblNombre      : TLabel;
+    lblApellido    : TLabel;
+    lblEmail       : TLabel;
+    lblTelefono    : TLabel;
+    lblDireccion   : TLabel;
+    edtNombre      : TEdit;
+    edtApellido    : TEdit;
+    edtEmail       : TEdit;
+    edtTelefono    : TEdit;
+    edtDireccion   : TEdit;
+    btnGuardar     : TRectangle;
+    txtBtnGuardar  : TLabel;
+    btnCancelar    : TRectangle;
+    txtBtnCancelar : TLabel;
 
     // --- Footer ---
-    lblEstado: TLabel;
-    lblContador: TLabel;
+    lblEstado   : TLabel;
+    lblContador : TLabel;
 
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -106,24 +92,26 @@ type
     procedure btnActualizarClick(Sender: TObject);
     procedure btnGuardarClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
+    procedure btnTemaCliClick(Sender: TObject);
     procedure edtBuscarChangeTracking(Sender: TObject);
     procedure grdClientesCellDblClick(const Column: TColumn; const Row: Integer);
 
   private
-    FModoEdicion: TModoEdicion;
+    FModoEdicion    : TModoEdicion;
     FIDClienteEditar: Integer;
-    FIDList: TArray<Integer>;
+    FIDList         : TArray<Integer>;
 
     procedure ConectarFirebird;
     procedure CargarClientes(const Filtro: string = '');
     procedure LimpiarEdicion;
-    procedure MostrarEdicion(Visible: Boolean);
+    procedure MostrarEdicion(AVisible: Boolean);
     procedure CargarClienteEnEdicion;
     procedure ActualizarContador;
     procedure SetEstado(const Msg: string);
     procedure PoblarGrid;
-    function GetSelectedID: Integer;
-  public
+    function  GetSelectedID: Integer;
+    procedure AplicarTema;
+    procedure SetRectEnabled(R: TRectangle; AEnabled: Boolean);
   end;
 
 var
@@ -133,17 +121,19 @@ implementation
 
 {$R *.fmx}
 
+uses
+  uTema;
+
 // ---------------------------------------------------------------------------
 // FormCreate / Destroy
 // ---------------------------------------------------------------------------
 procedure TFormClientes.FormCreate(Sender: TObject);
 begin
-  FModoEdicion := meNone;
+  FModoEdicion     := meNone;
   FIDClienteEditar := 0;
-
   MostrarEdicion(False);
+  AplicarTema;
 
-  // Conectar a Firebird y cargar datos
   try
     ConectarFirebird;
     CargarClientes;
@@ -158,6 +148,61 @@ procedure TFormClientes.FormDestroy(Sender: TObject);
 begin
   if FDConnection.Connected then
     FDConnection.Connected := False;
+end;
+
+// ---------------------------------------------------------------------------
+// Tema
+// ---------------------------------------------------------------------------
+procedure TFormClientes.AplicarTema;
+var
+  T: TTemaColors;
+begin
+  T := GetTema(GTipoTema);
+
+  rectFondo.Fill.Color      := T.AppBG;
+  rectHeader.Fill.Color     := T.HeaderBG;
+  rectFooter.Fill.Color     := T.FooterBG;
+  rectToolbar.Fill.Color    := T.PanelBG;
+  rectEdicion.Fill.Color    := T.PanelBG;
+
+  lblSubHeader.TextSettings.FontColor    := T.TxtSubHeader;
+  lblBuscar.TextSettings.FontColor       := T.TxtSub;
+  lblEdicionTitulo.TextSettings.FontColor:= T.TxtAcento;
+  rectSeparador.Fill.Color               := T.Separador;
+
+  lblNombre.TextSettings.FontColor    := T.TxtSub;
+  lblApellido.TextSettings.FontColor  := T.TxtSub;
+  lblEmail.TextSettings.FontColor     := T.TxtSub;
+  lblTelefono.TextSettings.FontColor  := T.TxtSub;
+  lblDireccion.TextSettings.FontColor := T.TxtSub;
+
+  lblEstado.TextSettings.FontColor    := T.TxtFooter;
+  lblContador.TextSettings.FontColor  := T.TxtFooter;
+
+  btnTemaCli.Fill.Color                := T.BtnTemaBG;
+  txtBtnTemaCli.TextSettings.FontColor := T.BtnTemaTxt;
+  txtBtnTemaCli.Text                   := T.BtnTemaTxt2;
+end;
+
+procedure TFormClientes.btnTemaCliClick(Sender: TObject);
+begin
+  if GTipoTema = tmClaro then
+    GTipoTema := tmOscuro
+  else
+    GTipoTema := tmClaro;
+  AplicarTema;
+end;
+
+// ---------------------------------------------------------------------------
+// Helper: habilitar/deshabilitar un boton-rectangulo visualmente
+// ---------------------------------------------------------------------------
+procedure TFormClientes.SetRectEnabled(R: TRectangle; AEnabled: Boolean);
+begin
+  R.Enabled := AEnabled;
+  if AEnabled then
+    R.Opacity := 1.0
+  else
+    R.Opacity := 0.35;
 end;
 
 // ---------------------------------------------------------------------------
@@ -271,10 +316,9 @@ begin
     Exit;
   end;
 
-  FModoEdicion := meEditar;
+  FModoEdicion     := meEditar;
   FIDClienteEditar := GetSelectedID;
 
-  // Ubicar el registro en el query
   FDQuery.First;
   while not FDQuery.Eof do
   begin
@@ -297,9 +341,9 @@ end;
 
 procedure TFormClientes.btnEliminarClick(Sender: TObject);
 var
-  ID: Integer;
-  Nombre: string;
-  SelRow: Integer;
+  ID     : Integer;
+  Nombre : string;
+  SelRow : Integer;
 begin
   if (not FDQuery.Active) or (grdClientes.RowCount = 0) or
      (grdClientes.Selected < 0) then
@@ -309,7 +353,7 @@ begin
   end;
 
   SelRow := grdClientes.Selected;
-  ID := FIDList[SelRow];
+  ID     := FIDList[SelRow];
   Nombre := grdClientes.Cells[1, SelRow] + ' ' + grdClientes.Cells[2, SelRow];
 
   MessageDlg(
@@ -339,10 +383,8 @@ end;
 
 procedure TFormClientes.btnActualizarClick(Sender: TObject);
 begin
-  if edtBuscar.Text <> '' then
-    edtBuscar.Text := ''
-  else
-    CargarClientes;
+  edtBuscar.Text := '';
+  CargarClientes;
   SetEstado('Datos actualizados');
 end;
 
@@ -351,7 +393,6 @@ end;
 // ---------------------------------------------------------------------------
 procedure TFormClientes.btnGuardarClick(Sender: TObject);
 begin
-  // Validaciones basicas
   if Trim(edtNombre.Text) = '' then
   begin
     ShowMessage('El nombre es obligatorio.');
@@ -429,18 +470,18 @@ begin
   edtDireccion.Text := '';
 end;
 
-procedure TFormClientes.MostrarEdicion(Visible: Boolean);
+procedure TFormClientes.MostrarEdicion(AVisible: Boolean);
 begin
-  layEdicion.Visible := Visible;
-  btnEditar.Enabled  := not Visible;
-  btnEliminar.Enabled := not Visible;
-  btnNuevo.Enabled   := not Visible;
-
-  // Ajustar ancho del grid segun si el panel edicion esta visible
-  if Visible then
-    layGrid.Align := TAlignLayout.Client
+  // Ajustar Align del panel de edicion para que el grid ocupe el espacio correctamente
+  if AVisible then
+    layEdicion.Align := TAlignLayout.Right
   else
-    layGrid.Align := TAlignLayout.Client;
+    layEdicion.Align := TAlignLayout.None;
+  layEdicion.Visible := AVisible;
+
+  SetRectEnabled(btnNuevo,    not AVisible);
+  SetRectEnabled(btnEditar,   not AVisible);
+  SetRectEnabled(btnEliminar, not AVisible);
 end;
 
 procedure TFormClientes.CargarClienteEnEdicion;

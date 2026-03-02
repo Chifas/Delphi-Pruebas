@@ -7,7 +7,6 @@ uses
   System.Types,
   System.UITypes,
   System.Classes,
-  System.Variants,
   FMX.Types,
   FMX.Controls,
   FMX.Forms,
@@ -21,22 +20,27 @@ uses
 
 type
   TFormPrincipal = class(TForm)
-    rectFondo: TRectangle;
-    layContenido: TLayout;
-    lblTitulo: TLabel;
-    lblSubtitulo: TLabel;
-    layBotones: TLayout;
-    btnSaludar: TButton;
-    btnClientes: TButton;
-    btnSalir: TButton;
-    shadowTitulo: TShadowEffect;
+    rectFondo     : TRectangle;
+    layContenido  : TLayout;
+    lblTitulo     : TLabel;
+    shadowTitulo  : TShadowEffect;
+    lblSubtitulo  : TLabel;
+    layBotones    : TLayout;
+    btnSaludar    : TRectangle;
+    txtBtnSaludar : TLabel;
+    btnClientes   : TRectangle;
+    txtBtnClientes: TLabel;
+    btnSalir      : TRectangle;
+    txtBtnSalir   : TLabel;
+    btnTema       : TRectangle;
+    txtBtnTema    : TLabel;
+    procedure FormCreate(Sender: TObject);
     procedure btnSaludarClick(Sender: TObject);
     procedure btnClientesClick(Sender: TObject);
     procedure btnSalirClick(Sender: TObject);
+    procedure btnTemaClick(Sender: TObject);
   private
-    { Declaraciones privadas }
-  public
-    { Declaraciones publicas }
+    procedure AplicarTema;
   end;
 
 var
@@ -45,10 +49,49 @@ var
 implementation
 
 uses
-  frmClientes;
+  frmClientes,
+  uTema;
 
 {$R *.fmx}
 
+// ---------------------------------------------------------------------------
+// FormCreate
+// ---------------------------------------------------------------------------
+procedure TFormPrincipal.FormCreate(Sender: TObject);
+begin
+  AplicarTema;
+end;
+
+// ---------------------------------------------------------------------------
+// Tema
+// ---------------------------------------------------------------------------
+procedure TFormPrincipal.AplicarTema;
+var
+  T: TTemaColors;
+begin
+  T := GetTema(GTipoTema);
+
+  rectFondo.Fill.Color       := T.AppBG;
+  lblTitulo.TextSettings.FontColor    := T.TxtTitulo;
+  lblSubtitulo.TextSettings.FontColor := T.TxtSubtitulo;
+
+  btnTema.Fill.Color               := T.BtnTemaBG;
+  txtBtnTema.TextSettings.FontColor := T.BtnTemaTxt;
+  txtBtnTema.Text                  := T.BtnTemaTxt2;
+end;
+
+procedure TFormPrincipal.btnTemaClick(Sender: TObject);
+begin
+  if GTipoTema = tmClaro then
+    GTipoTema := tmOscuro
+  else
+    GTipoTema := tmClaro;
+  AplicarTema;
+end;
+
+// ---------------------------------------------------------------------------
+// Acciones
+// ---------------------------------------------------------------------------
 procedure TFormPrincipal.btnSaludarClick(Sender: TObject);
 begin
   ShowMessage(
