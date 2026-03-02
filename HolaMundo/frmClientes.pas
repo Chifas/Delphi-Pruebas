@@ -6,7 +6,7 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes,
   System.Variants, System.Rtti,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs,
-  FMX.StdCtrls, FMX.Controls.Presentation, FMX.Layouts, FMX.Objects,
+  FMX.StdCtrls, FMX.Controls.Presentation, FMX.Layouts, FMX.Objects, FMX.Effects,
   FMX.Edit, FMX.Grid, FMX.Grid.Style, FMX.ScrollBox,
   Data.DB,
   FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error,
