@@ -20,20 +20,24 @@ uses
 
 type
   TFormPrincipal = class(TForm)
-    rectFondo     : TRectangle;
-    layContenido  : TLayout;
-    lblTitulo     : TLabel;
-    shadowTitulo  : TShadowEffect;
-    lblSubtitulo  : TLabel;
-    layBotones    : TLayout;
-    btnSaludar    : TRectangle;
-    txtBtnSaludar : TLabel;
-    btnClientes   : TRectangle;
-    txtBtnClientes: TLabel;
-    btnSalir      : TRectangle;
-    txtBtnSalir   : TLabel;
-    btnTema       : TRectangle;
-    txtBtnTema    : TLabel;
+    rectFondo        : TRectangle;
+    rectAccentTop    : TRectangle;
+    rectCard         : TRectangle;
+    shadowCard       : TShadowEffect;
+    rectCardTopStrip : TRectangle;
+    layContenido     : TLayout;
+    lblTitulo        : TLabel;
+    lblSubtitulo     : TLabel;
+    layBotones       : TLayout;
+    btnSaludar       : TRectangle;
+    txtBtnSaludar    : TLabel;
+    btnClientes      : TRectangle;
+    txtBtnClientes   : TLabel;
+    btnSalir         : TRectangle;
+    txtBtnSalir      : TLabel;
+    btnTema          : TRectangle;
+    txtBtnTema       : TLabel;
+    lblVersion       : TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnSaludarClick(Sender: TObject);
     procedure btnClientesClick(Sender: TObject);
@@ -71,7 +75,9 @@ var
 begin
   T := GetTema(GTipoTema);
 
-  rectFondo.Fill.Color       := T.AppBG;
+  rectFondo.Fill.Color            := T.AppBG;
+  rectCard.Fill.Color             := T.CardBG;
+  rectCardTopStrip.Fill.Color     := T.Separador;
   lblTitulo.TextSettings.FontColor    := T.TxtTitulo;
   lblSubtitulo.TextSettings.FontColor := T.TxtSubtitulo;
 

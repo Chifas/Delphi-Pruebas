@@ -1,8 +1,8 @@
 object FormPrincipal: TFormPrincipal
   Left = 0
   Top = 0
-  Caption = 'Hola Mundo - Delphi 12 (FMX)'
-  ClientHeight = 400
+  Caption = 'Hola Mundo - Delphi 12'
+  ClientHeight = 460
   ClientWidth = 640
   Position = ScreenCenter
   FormFactor.Width = 320
@@ -11,140 +11,179 @@ object FormPrincipal: TFormPrincipal
   OnCreate = FormCreate
   object rectFondo: TRectangle
     Align = Client
-    Fill.Color = xFFF0F2F5
+    Fill.Color = xFFF1F5F9
     Stroke.Kind = None
     Size.Width = 640.000000000000000000
-    Size.Height = 400.000000000000000000
+    Size.Height = 460.000000000000000000
     Size.PlatformDefault = False
-    object layContenido: TLayout
-      Align = Center
-      Size.Width = 500.000000000000000000
-      Size.Height = 340.000000000000000000
+    object rectAccentTop: TRectangle
+      Position.X = 0.000000000000000000
+      Position.Y = 0.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 5.000000000000000000
       Size.PlatformDefault = False
-      object lblTitulo: TLabel
-        Position.X = 0.000000000000000000
-        Position.Y = 20.000000000000000000
-        Size.Width = 500.000000000000000000
-        Size.Height = 65.000000000000000000
-        Size.PlatformDefault = False
-        TextSettings.Font.Size = 38.000000000000000000
-        TextSettings.Font.Style = [fsBold]
-        TextSettings.FontColor = xFF1565C0
-        TextSettings.HorzAlign = Center
-        Text = #161'Hola Mundo!'
-        object shadowTitulo: TShadowEffect
-          Distance = 3.000000000000000000
-          Direction = 45.000000000000000000
-          Softness = 0.400000005960464500
-          Opacity = 0.150000005960464500
-          ShadowColor = xFF000000
-        end
+      Fill.Color = xFF6366F1
+      Stroke.Kind = None
+    end
+    object rectCard: TRectangle
+      ClipChildren = True
+      Position.X = 70.000000000000000000
+      Position.Y = 30.000000000000000000
+      Size.Width = 500.000000000000000000
+      Size.Height = 400.000000000000000000
+      Size.PlatformDefault = False
+      Fill.Color = claWhite
+      Stroke.Kind = None
+      XRadius = 16.000000000000000000
+      YRadius = 16.000000000000000000
+      object shadowCard: TShadowEffect
+        Distance = 14.000000000000000000
+        Direction = 90.000000000000000000
+        Softness = 0.699999988079071045
+        Opacity = 0.100000001490116119
+        ShadowColor = xFF000000
       end
-      object lblSubtitulo: TLabel
-        Position.X = 0.000000000000000000
-        Position.Y = 95.000000000000000000
-        Size.Width = 500.000000000000000000
-        Size.Height = 28.000000000000000000
-        Size.PlatformDefault = False
-        TextSettings.Font.Size = 13.000000000000000000
-        TextSettings.Font.Style = [fsItalic]
-        TextSettings.FontColor = xFF757575
-        TextSettings.HorzAlign = Center
-        Text = 'Mi primer programa en Embarcadero'#174' Delphi 12 '#8212' FMX'
-      end
-      object layBotones: TLayout
-        Position.X = 40.000000000000000000
-        Position.Y = 155.000000000000000000
-        Size.Width = 420.000000000000000000
-        Size.Height = 50.000000000000000000
-        Size.PlatformDefault = False
-        object btnSaludar: TRectangle
-          Position.X = 0.000000000000000000
-          Position.Y = 3.000000000000000000
-          Size.Width = 120.000000000000000000
-          Size.Height = 44.000000000000000000
-          Size.PlatformDefault = False
-          Fill.Color = xFF1565C0
-          Stroke.Kind = None
-          XRadius = 6.000000000000000000
-          YRadius = 6.000000000000000000
-          OnClick = btnSaludarClick
-          object txtBtnSaludar: TLabel
-            Align = Client
-            HitTest = False
-            TextSettings.Font.Size = 12.000000000000000000
-            TextSettings.Font.Style = [fsBold]
-            TextSettings.FontColor = claWhite
-            TextSettings.HorzAlign = Center
-            TextSettings.VertAlign = Center
-            Text = 'Saludar'
-          end
-        end
-        object btnClientes: TRectangle
-          Position.X = 150.000000000000000000
-          Position.Y = 3.000000000000000000
-          Size.Width = 120.000000000000000000
-          Size.Height = 44.000000000000000000
-          Size.PlatformDefault = False
-          Fill.Color = xFF2E7D32
-          Stroke.Kind = None
-          XRadius = 6.000000000000000000
-          YRadius = 6.000000000000000000
-          OnClick = btnClientesClick
-          object txtBtnClientes: TLabel
-            Align = Client
-            HitTest = False
-            TextSettings.Font.Size = 12.000000000000000000
-            TextSettings.Font.Style = [fsBold]
-            TextSettings.FontColor = claWhite
-            TextSettings.HorzAlign = Center
-            TextSettings.VertAlign = Center
-            Text = 'Clientes'
-          end
-        end
-        object btnSalir: TRectangle
-          Position.X = 300.000000000000000000
-          Position.Y = 3.000000000000000000
-          Size.Width = 120.000000000000000000
-          Size.Height = 44.000000000000000000
-          Size.PlatformDefault = False
-          Fill.Color = xFFC62828
-          Stroke.Kind = None
-          XRadius = 6.000000000000000000
-          YRadius = 6.000000000000000000
-          OnClick = btnSalirClick
-          object txtBtnSalir: TLabel
-            Align = Client
-            HitTest = False
-            TextSettings.Font.Size = 12.000000000000000000
-            TextSettings.Font.Style = [fsBold]
-            TextSettings.FontColor = claWhite
-            TextSettings.HorzAlign = Center
-            TextSettings.VertAlign = Center
-            Text = 'Salir'
-          end
-        end
-      end
-      object btnTema: TRectangle
-        Position.X = 170.000000000000000000
-        Position.Y = 240.000000000000000000
-        Size.Width = 160.000000000000000000
-        Size.Height = 36.000000000000000000
-        Size.PlatformDefault = False
-        Fill.Color = xFF37474F
+      object rectCardTopStrip: TRectangle
+        Align = Top
+        Fill.Color = xFF6366F1
         Stroke.Kind = None
-        XRadius = 18.000000000000000000
-        YRadius = 18.000000000000000000
-        OnClick = btnTemaClick
-        object txtBtnTema: TLabel
-          Align = Client
-          HitTest = False
-          TextSettings.Font.Size = 11.000000000000000000
+        Size.Width = 500.000000000000000000
+        Size.Height = 8.000000000000000000
+        Size.PlatformDefault = False
+      end
+      object layContenido: TLayout
+        Align = Client
+        Size.Width = 500.000000000000000000
+        Size.Height = 392.000000000000000000
+        Size.PlatformDefault = False
+        object lblTitulo: TLabel
+          Position.X = 0.000000000000000000
+          Position.Y = 28.000000000000000000
+          Size.Width = 500.000000000000000000
+          Size.Height = 64.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 42.000000000000000000
           TextSettings.Font.Style = [fsBold]
-          TextSettings.FontColor = claWhite
+          TextSettings.FontColor = xFF6366F1
           TextSettings.HorzAlign = Center
-          TextSettings.VertAlign = Center
-          Text = 'Modo Oscuro'
+          Text = 'Hola Mundo!'
+        end
+        object lblSubtitulo: TLabel
+          Position.X = 0.000000000000000000
+          Position.Y = 98.000000000000000000
+          Size.Width = 500.000000000000000000
+          Size.Height = 22.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 12.000000000000000000
+          TextSettings.FontColor = xFF64748B
+          TextSettings.HorzAlign = Center
+          Text = 'Mi primer programa  '#183'  Embarcadero'#174' Delphi 12  '#8212'  FMX'
+        end
+        object layBotones: TLayout
+          Position.X = 25.000000000000000000
+          Position.Y = 150.000000000000000000
+          Size.Width = 450.000000000000000000
+          Size.Height = 52.000000000000000000
+          Size.PlatformDefault = False
+          object btnSaludar: TRectangle
+            Position.X = 10.000000000000000000
+            Position.Y = 2.000000000000000000
+            Size.Width = 130.000000000000000000
+            Size.Height = 48.000000000000000000
+            Size.PlatformDefault = False
+            Fill.Color = xFF6366F1
+            Stroke.Kind = None
+            XRadius = 24.000000000000000000
+            YRadius = 24.000000000000000000
+            OnClick = btnSaludarClick
+            object txtBtnSaludar: TLabel
+              Align = Client
+              HitTest = False
+              TextSettings.Font.Size = 13.000000000000000000
+              TextSettings.Font.Style = [fsBold]
+              TextSettings.FontColor = claWhite
+              TextSettings.HorzAlign = Center
+              TextSettings.VertAlign = Center
+              Text = 'Saludar'
+            end
+          end
+          object btnClientes: TRectangle
+            Position.X = 160.000000000000000000
+            Position.Y = 2.000000000000000000
+            Size.Width = 130.000000000000000000
+            Size.Height = 48.000000000000000000
+            Size.PlatformDefault = False
+            Fill.Color = xFF10B981
+            Stroke.Kind = None
+            XRadius = 24.000000000000000000
+            YRadius = 24.000000000000000000
+            OnClick = btnClientesClick
+            object txtBtnClientes: TLabel
+              Align = Client
+              HitTest = False
+              TextSettings.Font.Size = 13.000000000000000000
+              TextSettings.Font.Style = [fsBold]
+              TextSettings.FontColor = claWhite
+              TextSettings.HorzAlign = Center
+              TextSettings.VertAlign = Center
+              Text = 'Clientes'
+            end
+          end
+          object btnSalir: TRectangle
+            Position.X = 310.000000000000000000
+            Position.Y = 2.000000000000000000
+            Size.Width = 130.000000000000000000
+            Size.Height = 48.000000000000000000
+            Size.PlatformDefault = False
+            Fill.Color = xFFEF4444
+            Stroke.Kind = None
+            XRadius = 24.000000000000000000
+            YRadius = 24.000000000000000000
+            OnClick = btnSalirClick
+            object txtBtnSalir: TLabel
+              Align = Client
+              HitTest = False
+              TextSettings.Font.Size = 13.000000000000000000
+              TextSettings.Font.Style = [fsBold]
+              TextSettings.FontColor = claWhite
+              TextSettings.HorzAlign = Center
+              TextSettings.VertAlign = Center
+              Text = 'Salir'
+            end
+          end
+        end
+        object btnTema: TRectangle
+          Position.X = 168.000000000000000000
+          Position.Y = 234.000000000000000000
+          Size.Width = 164.000000000000000000
+          Size.Height = 38.000000000000000000
+          Size.PlatformDefault = False
+          Fill.Color = xFF4338CA
+          Stroke.Kind = None
+          XRadius = 19.000000000000000000
+          YRadius = 19.000000000000000000
+          OnClick = btnTemaClick
+          object txtBtnTema: TLabel
+            Align = Client
+            HitTest = False
+            TextSettings.Font.Size = 11.000000000000000000
+            TextSettings.Font.Style = [fsBold]
+            TextSettings.FontColor = claWhite
+            TextSettings.HorzAlign = Center
+            TextSettings.VertAlign = Center
+            Text = 'Modo Oscuro'
+          end
+        end
+        object lblVersion: TLabel
+          Position.X = 0.000000000000000000
+          Position.Y = 362.000000000000000000
+          Size.Width = 500.000000000000000000
+          Size.Height = 18.000000000000000000
+          Size.PlatformDefault = False
+          TextSettings.Font.Size = 10.000000000000000000
+          TextSettings.FontColor = xFF94A3B8
+          TextSettings.HorzAlign = Center
+          Text = 'Delphi 12  '#183'  FireMonkey (FMX)  '#183'  v1.0'
         end
       end
     end

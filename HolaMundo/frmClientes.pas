@@ -34,13 +34,15 @@ type
     rectFooter    : TRectangle;
 
     // --- Header ---
-    lblTituloHeader : TLabel;
-    lblSubHeader    : TLabel;
-    btnTemaCli      : TRectangle;
-    txtBtnTemaCli   : TLabel;
+    rectHeaderAccent : TRectangle;
+    lblTituloHeader  : TLabel;
+    lblSubHeader     : TLabel;
+    btnTemaCli       : TRectangle;
+    txtBtnTemaCli    : TLabel;
 
     // --- Toolbar ---
     rectToolbar      : TRectangle;
+    rectToolbarBorder: TRectangle;
     btnNuevo         : TRectangle;
     txtBtnNuevo      : TLabel;
     btnEditar        : TRectangle;
@@ -63,6 +65,7 @@ type
 
     // --- Panel Edicion ---
     rectEdicion    : TRectangle;
+    shadowEdicion  : TShadowEffect;
     rectSeparador  : TRectangle;
     lblEdicionTitulo: TLabel;
     lblNombre      : TLabel;
@@ -159,11 +162,12 @@ var
 begin
   T := GetTema(GTipoTema);
 
-  rectFondo.Fill.Color      := T.AppBG;
-  rectHeader.Fill.Color     := T.HeaderBG;
-  rectFooter.Fill.Color     := T.FooterBG;
-  rectToolbar.Fill.Color    := T.PanelBG;
-  rectEdicion.Fill.Color    := T.PanelBG;
+  rectFondo.Fill.Color       := T.AppBG;
+  rectHeader.Fill.Color      := T.HeaderBG;
+  rectHeaderAccent.Fill.Color:= T.Separador;
+  rectFooter.Fill.Color      := T.FooterBG;
+  rectToolbar.Fill.Color     := T.PanelBG;
+  rectEdicion.Fill.Color     := T.CardBG;
 
   lblSubHeader.TextSettings.FontColor    := T.TxtSubHeader;
   lblBuscar.TextSettings.FontColor       := T.TxtSub;
